@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	   xmlns:f="http://xmlns.jcp.org/jsf/core"
+	   xmlns:h="http://xmlns.jcp.org/jsf/html"
+	   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	   xmlns:jsf="http://xmlns.jcp.org/jsf"
+	   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	   xmlns:p="http://primefaces.org/ui">
+	   
+
+
+<head>
+    <ui:include src="../template/metadata.xhtml"/>
+    <title>Proposer un projet</title>
+</head>
+<body>
+<div id="wrapper">
+    <header id="header">
+    <ui:include src="../template/header.xhtml"/>
+    </header><!--end: #header -->
+    
+     <div class="layout-2cols">
+        <div class="content grid_8">
+            <div class="single-page">
+                <div class="wrapper-box box-post-comment">
+                    <h2 class="common-title">This is where the adventure begins</h2>
+                    <div class="box-white">
+                        <h:form id="contact-form" class="clearfix">
+                             <p class="rs pb30">Add a picture, set your goal and set a host of important details.</p>
+                            <div class="form form-post-comment">
+                                <div class="left-input">
+                                    <label for="txt_name_contact">
+                                    Choose picture of project<h:inputFile id="file" value=""
+                                     />
+                                    </label>
+                                    <label for="txt_name_contact">
+                                     Title of project<h:inputText id="title" value="#{projectbean.title}"
+                                     class="txt fill-width txt-name"  />
+                                    </label>
+                                     <label for="txt_content_contact">
+                                     Short presentation <h:inputTextarea value="#{projectbean.short_presentation}" class="txt fill-width" />
+                                    </label>
+                                    <label for="txt_name_contact">
+                                     Name of project<h:inputText id="title" value="#{projectbean.name}"
+                                     class="txt fill-width txt-name"  />
+                                    </label>                                  
+                                   <label for="txt_name_contact">
+                                    Duration<h:inputText id="title" value="#{projectbean.duration}"
+                                    class="txt fill-width txt-name"  />
+                                    Number of days 1 to 60 days (ideal duration under 30 days)
+                                     thirty
+                                     Date / Time limit
+                                     We advise you to limit your campaign to 30 days (or less). Short deadlines often result in higher success rates. Once your project
+                                     is launched, you can not change this time.
+                                    </label>
+                                    <label for="txt_name_contact">
+                                    Location <h:inputText id="title" value="#{projectbean.location}"
+                                    class="txt fill-width txt-name"  />
+                                    </label>
+                                    <label for="txt_name_contact">
+                                    Target funding<h:inputText id="title" value="#{projectbean.turget_funding}"
+                                    class="txt fill-width txt-name"  />
+                                   Your funding target is the minimum amount you need to complete your project and produce all the rewards (not to mention the shipping costs!). 
+                                   As Kickstarter crowdfunding works on the principle of "all or nothing", you can reap a sum greater than your goal but never less. Once your project is launched,
+                                    you can not change your fundraising goal.
+                                   If your project is fully funded, the following fees are levied on the total funds to 
+                                    collect 5% Kickstarter fees and payment processing costs (between 3% and 5%). If your project is not fully funded, no fees.
+                                    </label>
+                                </div>
+                               
+                                <div class="clear"></div>
+                                <p class="rs ta-r clearfix">
+									<span id="response"></span>
+                                   <h:commandButton  action="#{projectbean.addProject()}" value="Validate" class="btn btn-white btn-submit-comment"/>                     
+                               </p>
+                            </div>
+                        </h:form>
+                    </div>
+                </div><!--end: .box-list-comment -->
+            </div>
+        </div><!--end: .content -->
+        <div class="sidebar grid_4">
+            <div class="box-gray">
+                <h3 class="title-box">Contact info</h3>
+                <p class="rs description pb20">Pellentesque laoreet sapien id lacus luctus non fringilla elit lobortis. Fusce augue diam, tempor posuere pharetra sed, feugiat non sapien.</p>
+                <p class="rs pb20">
+                    <span class="fw-b">Address</span>: 111 lorem St. 5th Floor,
+                    Ipsum City, MA 00001
+                </p>
+                <p class="rs pb20">
+                    <span class="fw-b">Phone</span>: +1 (555) 55-55-555
+                    (9AM - 6PM EST)
+                </p>
+                <p class="rs pb20">
+                    <span class="fw-b">Email</span>: <a href="mailto:info@megadrupal.com" class="be-fc-orange">info@megadrupal.com</a>
+                </p>
+            </div>
+        </div><!--end: .sidebar -->
+        <div class="clear"></div>
+    </div>
+    
+    <footer id="footer">
+       <ui:include src="../template/footer.xhtml"/> 
+    </footer><!--end: #footer -->
+    </div>
+    </body>
+    </html>
