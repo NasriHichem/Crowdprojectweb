@@ -3,6 +3,8 @@ package tn.esprit.smartdev.CrowdFunnding.persistence;
 import java.io.Serializable;
 
 import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,10 +41,14 @@ public class Project implements Serializable{
 	private String short_presentation;
 	private int  duration ;
 	private float turget_funding ;
+	@Column(nullable=true)
 	private String picture_project ;
 	private String location ;
+	@Column(nullable=true)
 	private int  is_confirmed ;
+	@Column(nullable=true)
 	private int is_validate ;
+	@Column(nullable=true)
 	private String date_publish ;
 	@ManyToOne
 	private Creator creator ;
@@ -121,7 +127,7 @@ public class Project implements Serializable{
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public double getTurget_funding() {
+	public float getTurget_funding() {
 		return turget_funding;
 	}
 	public void setTurget_funding(float turget_funding) {
