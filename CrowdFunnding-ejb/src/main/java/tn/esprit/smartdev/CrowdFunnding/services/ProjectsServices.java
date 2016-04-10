@@ -36,6 +36,7 @@ public class ProjectsServices implements ProjectsServicesRemote,ProjectsServices
 	public void addProject(Project p) {
 		em.persist(p);
 		
+		
 	}
 
 	@SuppressWarnings("unchecked")

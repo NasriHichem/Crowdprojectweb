@@ -24,6 +24,12 @@ public class Creator extends Subscriber implements Serializable{
 		this.projects=projects;
 	    
 	}
+	public Creator(int id, String firstname, String lastname, String email,String password,
+			String secret,int accountnumber) {
+		super(id, firstname, lastname, email, password,secret,accountnumber);
+		
+	    
+	}
 	
 	@OneToMany(mappedBy="creator")
 	public List<Project> getProjects() {

@@ -1,80 +1,121 @@
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	   xmlns:f="http://xmlns.jcp.org/jsf/core"
-	   xmlns:h="http://xmlns.jcp.org/jsf/html"
-	   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	   xmlns:jsf="http://xmlns.jcp.org/jsf"
-	   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	   xmlns:p="http://primefaces.org/ui"
-	   template="/template/template.xhtml">
-	 
-	 
-	
-	<ui:define name="title"><h:outputText value="Propose project" /> 
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" template="/template/template.xhtml">
+
+
+
+	<ui:define name="title">
+		<h:outputText value="Propose project" />
 	</ui:define>
-	 <ui:define name="content">
-        <div class="content grid_8">
-            <div class="single-page">
-                <div class="wrapper-box box-post-comment">
-                    <h2 class="common-title">This is where the adventure begins</h2>
-                    <div class="box-white">
-                        <h:form id="contact-form" class="clearfix" enctype="multipart/form-data">
-                             <p class="rs pb30">Add a picture, set your goal and set a host of important details.</p>
-                            <div class="form form-post-comment">
-                                <div class="left-input">
-                                    <label for="txt_name_contact">
-                                     Choose picture of project <h:inputFile value="#{projectBean.file1}" class="txt fill-width txt-name" />
-                                     
-                                    </label>
-                                    <label for="txt_name_contact">
-                                     Title of project<h:inputText value="#{projectBean.project.title}"
-                                     class="txt fill-width txt-name"  />
-                                    </label>
-                                    
-                                   
-                                     <label for="txt_content_contact">
-                                     Short presentation <h:inputTextarea value="#{projectBean.project.short_presentation}" class="txt fill-width" />
-                                    </label>
-                                    <label for="txt_name_contact">
-                                     Name of project<h:inputText  value="#{projectBean.project.name}"
-                                     class="txt fill-width txt-name"  />
-                                    </label>                                  
-                                   <label for="txt_name_contact">
-                                    Duration<h:inputText value="#{projectBean.project.duration}"
-                                    class="txt fill-width txt-name"  />
-                                    Number of days 1 to 60 days (ideal duration under 30 days)
-                                     thirty
-                                     Date / Time limit
-                                     We advise you to limit your campaign to 30 days (or less). Short deadlines often result in higher success rates. Once your project
-                                     is launched, you can not change this time.
-                                    </label>
-                                    <label for="txt_name_contact">
-                                    Location <h:inputText  value="#{projectBean.project.location}"
-                                    class="txt fill-width txt-name"  />
-                                    </label>
-                                    <label for="txt_name_contact">
-                                    Target funding<h:inputText  value="#{projectBean.project.turget_funding}"
-                                    class="txt fill-width txt-name"  />
-                                   Your funding target is the minimum amount you need to complete your project and produce all the rewards (not to mention the shipping costs!). 
-                                   As Kickstarter crowdfunding works on the principle of "all or nothing", you can reap a sum greater than your goal but never less. Once your project is launched,
-                                    you can not change your fundraising goal.
-                                   If your project is fully funded, the following fees are levied on the total funds to 
-                                    collect 5% Kickstarter fees and payment processing costs (between 3% and 5%). If your project is not fully funded, no fees.
-                                    </label> 
-                                     
-                                </div>
-                               
-                                <div class="clear"></div>
-                                <p class="rs ta-r clearfix">
-									<span id="response"></span>
-                                   <h:commandButton  action="#{projectBean.doaddProject()}" value="Validate" class="btn btn-white btn-submit-comment"/>                     
-                               </p>
-                            </div>
-                        </h:form>
-                    </div>
+	<ui:define name="content">
+       
+		<div class="layout-2cols">
+			<div class="content grid_8">
+				<div class="single-page">
+					<div class="wrapper-box box-post-comment">
+						<br />
+						<h2 class="common-title">This is where the adventure begins</h2>
+						<div class="box-white">
+							<h:form id="contact-form" class="clearfix"
+								enctype="multipart/form-data">
+								<p class="rs pb30">Add a picture, set your goal and set a
+									host of important details.</p>
+								<div class="form form-post-comment">
+									<div class="left-input">
+										<label for="txt_name_contact"> Choose picture of
+											project <h:inputFile value="#{projectBean.file1}"
+												class="txt fill-width txt-name" required="true" />
+
+										</label> <label for="txt_name_contact"> Title of project
+										<p:inputText id="title" value="#{projectBean.project.title}"
+												>
+												<f:validator validatorId="crowdproject.notempty" />
+											</p:inputText> <h:message for="title" style="color:red" />
+										</label> <label for="txt_content_contact"> Short presentation
+											<h:inputTextarea id="shortp"
+												value="#{projectBean.project.short_presentation}"
+												class="txt fill-width">
+												<f:validator validatorId="crowdproject.notempty" />
+											</h:inputTextarea> <h:message for="name" style="color:red" />
+										</label> <label for="txt_name_contact"> Name of project<h:inputText
+												id="name" value="#{projectBean.project.name}"
+												class="txt fill-width txt-name" required="true">
+												<f:validator validatorId="crowdproject.notempty" />
+											</h:inputText> <h:message for="name" style="color:red" />
+										</label> <label for="txt_name_contact"> Category <h:selectOneMenu
+												value="#{projectBean.category}"
+												converter="categoryConverter">
+												<f:selectItems value="#{categoryBean.categorys}" var="cat"
+													itemValue="#{cat}" itemLabel="#{cat.name_category}" />
+											</h:selectOneMenu>
+										</label> <label for="txt_name_contact"> Duration<h:inputText
+												id="duration" value="#{projectBean.project.duration}"
+												class="txt fill-width txt-name" required="true">
+												<f:validator validatorId="crowdproject.notempty" />
+												<f:validator validatorId="crowdfunding.NumberValidator" />
+											</h:inputText> <h:message for="duration" style="color:red" /> Number of
+											days 1 to 60 days (ideal duration under 30 days) thirty Date
+											/ Time limit We advise you to limit your campaign to 30 days
+											(or less). Short deadlines often result in higher success
+											rates. Once your project is launched, you can not change this
+											time.
+										</label> <label for="txt_name_contact"> Location <h:selectOneMenu
+												value="#{projectBean.project.location}">
+												<f:selectItems value="#{projectBean.villes}" var="ville"
+													itemValue="#{ville}" itemLabel="#{ville}" />
+											</h:selectOneMenu>
+										</label> <label for="txt_name_contact"> Target funding<h:inputText
+												id="target" value="#{projectBean.project.turget_funding}"
+												class="txt fill-width txt-name" required="true">
+											
+											</h:inputText>Your funding
+											target is the minimum amount you need to complete your
+											project and produce all the rewards (not to mention the
+											shipping costs!). As Kickstarter crowdfunding works on the
+											principle of "all or nothing", you can reap a sum greater
+											than your goal but never less. Once your project is launched,
+											you can not change your fundraising goal. If your project is
+											fully funded, the following fees are levied on the total
+											funds to collect 5% Kickstarter fees and payment processing
+											costs (between 3% and 5%). If your project is not fully
+											funded, no fees.
+										</label>
+
+									</div>
+
+									<div class="clear"></div>
+									<p class="rs ta-r clearfix">
+										<span id="response"></span>
+										<h:commandButton action="#{projectBean.doaddProject()}"
+											value="Validate" class="btn btn-white btn-submit-comment"  />
+									</p>
+								</div>
+							</h:form>
+						                </div>
                 </div><!--end: .box-list-comment -->
             </div>
-            <h:outputText value=" valeur #{projectBean.picture_name}" />
         </div><!--end: .content -->
-        </ui:define>
+        <div class="sidebar grid_4">
+            <div class="box-gray">
+                <h3 class="title-box">Adivce</h3>
+                <p class="rs description pb20">
+                 Fill the form and try to write very specific data 
+                 to increase the success chance of your project.</p>
+                       
+            </div>
+            <img src="../resources/images/crowd.png"/>
+        </div><!--end: .sidebar -->
+        <div class="clear"></div>
+    </div>
+				
+			
+		
+		<!--end: .content -->
+       			
+	</ui:define>
 </ui:composition>

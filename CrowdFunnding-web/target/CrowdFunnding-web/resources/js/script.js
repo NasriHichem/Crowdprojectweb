@@ -30,6 +30,31 @@ $(function(){
 		});
 	}
 	
+	$(function(){
+	    var sys_show_popup_login = $(".sys_show_popup_succes"),
+	        sys_popup_common = $("#sys_popup_common");
+			
+		/* Homepage Slider
+		---------------------------------------------------------- */	
+		if ($("#md-slider-1").length) {
+			$("#md-slider-1").mdSlider({
+				fullwidth: true,
+				transitions: "fade",
+				width: 980,
+				height: 365,
+				responsive: true,
+				slideShowDelay: 6000,
+				slideShow: true,
+				loop: true,
+				showLoading: false,
+				showArrow: 1,
+				showBullet: 1,
+				posBullet: 2,
+				showThumb: false,
+				enableDrag: true
+			});
+		}
+	
 	/* get Twitter
 	---------------------------------------------------------- */
 

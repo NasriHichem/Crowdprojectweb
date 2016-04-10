@@ -52,11 +52,7 @@
         </div><!-- end: .wrap-top-menu -->
         <div class="container_12 clearfix">
             <div class="grid_12 header-content">
-                <div id="sys_header_right" class="header-right">
-                    <div class="account-panel">
-                        <a href="#" class="btn btn-red sys_show_popup_login">Register</a>
-                        <a href="#" class="btn btn-black sys_show_popup_login">Login</a>
-                    </div>
+                <div id="sys_header_right" class="header-right">                   
                     <div class="form-search">
                         <form action="#">
                             <label for="sys_txt_keyword">
@@ -78,9 +74,12 @@
                         </div>
                         <span class="sep"></span>
                         <div class="nav-item">
-                            <a href="#" class="nav-title">Start</a>
+                         <h:form>
+                           <h:commandLink action="/projects/propose_project" value="Start"
+                            class="nav-title" />
+                           </h:form>
                             <p class="rs nav-description">Your Project</p>
-                        </div>
+                        </div>                 
                     </div>
                 </div>
             </div>

@@ -9,6 +9,6 @@ import tn.esprit.smartdev.CrowdFunnding.persistence.Project;
 @Local
 public interface ProjectsServicesLocal {
 	
-	public void addProject(Project p);
+	public void  addProject(Project p);
 
 }
