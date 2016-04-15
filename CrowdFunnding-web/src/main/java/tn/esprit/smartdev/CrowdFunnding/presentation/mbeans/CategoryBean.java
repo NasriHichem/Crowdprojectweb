@@ -25,10 +25,10 @@ public class CategoryBean {
 		this.categorys = categorys;
 	}
 	
-	@PostConstruct
-	public void init()
+	public List<Category> dogetCategories()
 	{
-	  categorys=service.getList();
+		return   categorys=service.getList();
 	}
+	
 
 }

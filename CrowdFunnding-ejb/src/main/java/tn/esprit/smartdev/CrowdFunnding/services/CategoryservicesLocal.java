@@ -10,4 +10,5 @@ import tn.esprit.smartdev.CrowdFunnding.persistence.Category;
 public interface CategoryservicesLocal {
 
 	public ArrayList<Category>getList();
+	public Category findCategoryByName(String name);
 }

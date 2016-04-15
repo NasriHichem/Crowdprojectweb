@@ -1,5 +1,7 @@
 tn\esprit\smartdev\CrowdFunnding\presentation\validators\NotEmtyValidator.class
 tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\CategoryBean.class
 tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ProjectBean.class
+tn\esprit\smartdev\CrowdFunnding\presentation\converters\HealperBean.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ContribuationBean.class
 tn\esprit\smartdev\CrowdFunnding\presentation\converters\CategoryConverter.class
 tn\esprit\smartdev\CrowdFunnding\presentation\validators\NumberValidator.class

@@ -8,13 +8,13 @@
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Claim</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Contribuation</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.ContribuationPk</class>
-		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Creator</class>
+		<class>tn.esprit.smartdev.CrowdFunnding.persistence.FundingContriubation</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Magazine</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Message</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Modirator</class>
-		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Participant</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Project</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.SimpleAdmin</class>
+		<class>tn.esprit.smartdev.CrowdFunnding.persistence.SourcingContribuation</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Subscriber</class>
 		<class>tn.esprit.smartdev.CrowdFunnding.persistence.Virement</class>
 		<properties>

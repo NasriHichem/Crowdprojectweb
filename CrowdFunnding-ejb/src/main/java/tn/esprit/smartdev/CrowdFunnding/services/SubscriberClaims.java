@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import tn.esprit.smartdev.CrowdFunnding.persistence.Creator;
+
 import tn.esprit.smartdev.CrowdFunnding.persistence.Subscriber;
 
 
@@ -17,7 +17,7 @@ public class SubscriberClaims implements ISubscriberClaimsRemote,ISubscriberClai
     EntityManager em ;
     
     
-    public void  updateStateClaim(Creator c) {
+    public void  updateStateClaim(Subscriber c) {
       
        em.merge(c);   		
 	}

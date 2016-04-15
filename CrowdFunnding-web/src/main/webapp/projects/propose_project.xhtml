@@ -28,52 +28,58 @@
 								<div class="form form-post-comment">
 									<div class="left-input">
 										<label for="txt_name_contact"> Choose picture of
-											project <h:inputFile value="#{projectBean.file1}"
-												class="txt fill-width txt-name" required="true" />
-
+											project
+										 <p:fileUpload value="#{projectBean.file}" mode="simple" skinSimple="true"/>
 										</label> <label for="txt_name_contact"> Title of project
 										<p:inputText id="title" value="#{projectBean.project.title}"
-												>
+												class="txt fill-width txt-name"	>
 												<f:validator validatorId="crowdproject.notempty" />
 											</p:inputText> <h:message for="title" style="color:red" />
 										</label> <label for="txt_content_contact"> Short presentation
-											<h:inputTextarea id="shortp"
+											<p:inputTextarea rows="6" cols="33" id="shortp"
 												value="#{projectBean.project.short_presentation}"
 												class="txt fill-width">
 												<f:validator validatorId="crowdproject.notempty" />
-											</h:inputTextarea> <h:message for="name" style="color:red" />
-										</label> <label for="txt_name_contact"> Name of project<h:inputText
+											</p:inputTextarea> <h:message for="shortp" style="color:red" />
+										</label> <label for="txt_name_contact"> Name of project
+										<p:inputText
 												id="name" value="#{projectBean.project.name}"
-												class="txt fill-width txt-name" required="true">
+												class="txt fill-width txt-name" >
 												<f:validator validatorId="crowdproject.notempty" />
-											</h:inputText> <h:message for="name" style="color:red" />
-										</label> <label for="txt_name_contact"> Category <h:selectOneMenu
-												value="#{projectBean.category}"
-												converter="categoryConverter">
-												<f:selectItems value="#{categoryBean.categorys}" var="cat"
+											</p:inputText> <h:message for="name" style="color:red" />
+										</label> 
+										<label for="txt_name_contact"> Category 
+										<h:selectOneMenu value="#{projectBean.project.category}"
+											converter="categConverter"  var="t"	
+												>
+												<f:selectItems value="#{categoryBean.dogetCategories()}" var="cat"
 													itemValue="#{cat}" itemLabel="#{cat.name_category}" />
 											</h:selectOneMenu>
-										</label> <label for="txt_name_contact"> Duration<h:inputText
+										</label>
+										 <label for="txt_name_contact"> Duration
+										 <p:inputText  
 												id="duration" value="#{projectBean.project.duration}"
-												class="txt fill-width txt-name" required="true">
-												<f:validator validatorId="crowdproject.notempty" />
+												class="txt fill-width txt-name" >				
 												<f:validator validatorId="crowdfunding.NumberValidator" />
-											</h:inputText> <h:message for="duration" style="color:red" /> Number of
+											</p:inputText> <h:message for="duration" style="color:red" /> Number of
 											days 1 to 60 days (ideal duration under 30 days) thirty Date
 											/ Time limit We advise you to limit your campaign to 30 days
 											(or less). Short deadlines often result in higher success
 											rates. Once your project is launched, you can not change this
 											time.
-										</label> <label for="txt_name_contact"> Location <h:selectOneMenu
+										</label> <label for="txt_name_contact"> Location
+										 <h:selectOneMenu
 												value="#{projectBean.project.location}">
 												<f:selectItems value="#{projectBean.villes}" var="ville"
 													itemValue="#{ville}" itemLabel="#{ville}" />
 											</h:selectOneMenu>
-										</label> <label for="txt_name_contact"> Target funding<h:inputText
+										</label> 
+										<label for="txt_name_contact"> Target funding
+										<p:inputText
 												id="target" value="#{projectBean.project.turget_funding}"
-												class="txt fill-width txt-name" required="true">
+												class="txt fill-width txt-name" >
 											
-											</h:inputText>Your funding
+											</p:inputText>Your funding
 											target is the minimum amount you need to complete your
 											project and produce all the rewards (not to mention the
 											shipping costs!). As Kickstarter crowdfunding works on the
@@ -87,15 +93,16 @@
 										</label>
 
 									</div>
-
+                                   
 									<div class="clear"></div>
 									<p class="rs ta-r clearfix">
 										<span id="response"></span>
-										<h:commandButton action="#{projectBean.doaddProject()}"
-											value="Validate" class="btn btn-white btn-submit-comment"  />
+										<p:commandButton action="#{projectBean.doaddProject()}" ajax="false"
+									value="Validate" class="btn btn-white btn-submit-comment" icon="ui-icon-check" />
 									</p>
 								</div>
 							</h:form>
+						
 						                </div>
                 </div><!--end: .box-list-comment -->
             </div>
@@ -106,7 +113,7 @@
                 <p class="rs description pb20">
                  Fill the form and try to write very specific data 
                  to increase the success chance of your project.</p>
-                       
+                     <h:outputText value="#{t.displayName}" />    
             </div>
             <img src="../resources/images/crowd.png"/>
         </div><!--end: .sidebar -->

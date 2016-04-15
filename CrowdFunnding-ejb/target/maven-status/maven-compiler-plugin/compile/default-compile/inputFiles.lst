@@ -27,7 +27,6 @@ C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\espri
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\ContribuationService.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\persistence\Project.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\MagazineServicesLocal.java
-C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\persistence\Participant.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\CategoryservicesRemote.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\ContribuationServiceLocal.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\GestionMessages.java
@@ -35,7 +34,6 @@ C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\espri
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\ArticleServices.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\CategoryservicesLocal.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\ProjectsClaims.java
-C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\persistence\Creator.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\MagazineServices.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\MagazineServicesRemote.java
 C:\Users\Hichem\workspace\CrowdFunnding\CrowdFunnding-ejb\src\main\java\tn\esprit\smartdev\CrowdFunnding\services\SubscriberClaims.java

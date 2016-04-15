@@ -1,14 +1,18 @@
 package tn.esprit.smartdev.CrowdFunnding.persistence;
 
 import java.io.Serializable;
-
+import java.sql.Blob;
 import java.util.List;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,7 +33,13 @@ query = "SELECT p FROM Project p ,Category c WHERE p.category.id =c.id and "
 	query = "SELECT count(p) FROM Project p WHERE p.date_publish BETWEEN :date1 AND :date2"),
 	
 	@NamedQuery(name = "getprojectsbyname",
-	query = "SELECT p FROM Project p WHERE p.name=:name")
+	query = "SELECT p FROM Project p WHERE p.name=:name"),
+
+   @NamedQuery(name = "getnumberprojectbycreator",
+   query = "SELECT count(p) FROM Project p WHERE p.creator.id=:value"),
+   
+   @NamedQuery(name = "findprojectsbycreator",
+   query = "SELECT p FROM Project p WHERE p.creator.id=:value")
 })
 public class Project implements Serializable{
 	
@@ -43,6 +53,10 @@ public class Project implements Serializable{
 	private float turget_funding ;
 	@Column(nullable=true)
 	private String picture_project ;
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(length=16789987)
+	private byte[] picture ;
 	private String location ;
 	@Column(nullable=true)
 	private int  is_confirmed ;
@@ -51,8 +65,8 @@ public class Project implements Serializable{
 	@Column(nullable=true)
 	private String date_publish ;
 	@ManyToOne
-	private Creator creator ;
-	@ManyToOne
+	private Subscriber creator ;
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Category category ;
 	@OneToMany(mappedBy="project")
 	private List<Contribuation>contribuations;
@@ -66,7 +80,7 @@ public class Project implements Serializable{
 
 	public Project(int id, String name, String title, String short_presentation, int duration,
 			float turget_funding, String picture_project, String location,int is_confirmed,
-		  String date_publish,  int is_validate,Creator creator,Category category) {
+		  String date_publish,  int is_validate,Subscriber creator,Category category) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -85,7 +99,7 @@ public class Project implements Serializable{
 	}
 	public Project(String name, String title, String short_presentation, int duration,
 	   float turget_funding, String location,
-	    Creator creator,Category category) {
+	   Subscriber creator,Category category) {
 		super();		
 		this.name = name;
 		this.title = title;
@@ -171,10 +185,10 @@ public class Project implements Serializable{
 		this.date_publish = date_publish;
 	}
 
-	public Creator getCreator() {
+	public Subscriber getCreator() {
 		return creator;
 	}
-	public void setCreator(Creator creator) {
+	public void setCreator(Subscriber creator) {
 		this.creator = creator;
 	}
 	
@@ -207,6 +221,16 @@ public class Project implements Serializable{
 	public void setVirement(Virement virement) {
 		this.virement = virement;
 	}
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
+	
 	
 	
 	

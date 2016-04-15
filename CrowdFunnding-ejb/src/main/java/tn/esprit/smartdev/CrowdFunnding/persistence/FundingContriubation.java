@@ -2,20 +2,31 @@ package tn.esprit.smartdev.CrowdFunnding.persistence;
 
 import java.io.Serializable;
 
-public class FundingContriubation  extends Contribuation implements Serializable{
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+@DiscriminatorValue("funding")
+@Entity
 
-	private int sum_fundings;
-	public FundingContriubation(ContribuationPk pk, Participant participant, Project project
-			,int sum_fundings) {
-		super(pk, participant, project);
-		this.sum_fundings=sum_fundings;
+public class FundingContriubation  extends Contribuation implements Serializable{
+    	
+	private float value_fundings;
+	
+	public FundingContriubation() {
 		
 	}
-	public int getSum_fundings() {
-		return sum_fundings;
+	public FundingContriubation(ContribuationPk pk, Subscriber participant, Project project
+			,float value_fundings) {
+		super(pk, participant, project);
+		this.value_fundings=value_fundings;
+		
 	}
-	public void setSum_fundings(int sum_fundings) {
-		this.sum_fundings = sum_fundings;
+	public float getValue_fundings() {
+		return value_fundings;
+	}
+	public void setValue_fundings(float value_fundings) {
+		this.value_fundings = value_fundings;
 	}
 	
 

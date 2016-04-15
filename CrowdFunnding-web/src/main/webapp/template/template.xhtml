@@ -9,13 +9,13 @@
 	   
 
 
-<head>
+<h:head>
     <ui:include src="/template/metadata.xhtml"/>
     <title><ui:insert name="title"></ui:insert></title>
 
-</head>
+</h:head>
 
-<body>
+<h:body>
 <div id="wrapper">
     <header id="header">
       <div class="wrap-top-menu">
@@ -24,6 +24,13 @@
                     <nav class="top-menu">
                         <ul id="main-menu" class="nav nav-horizontal clearfix">
                             <li class="active"><a href="index.html">Home</a></li>
+                            <li class="sep"></li>
+                            <li>
+                            <h:form>
+                            <a>My profile<p:commandLink action="/Profile/myprofile"
+                             /></a>
+                            </h:form>
+                            </li>
                             <li class="sep"></li>
                             <li><a href="all-pages.html">Messages</a></li>
                             <li class="sep"></li>
@@ -75,7 +82,7 @@
                         <span class="sep"></span>
                         <div class="nav-item">
                          <h:form>
-                           <h:commandLink action="/projects/propose_project" value="Start"
+                           <p:commandLink action="/projects/propose_project" value="Start"
                             class="nav-title" />
                            </h:form>
                             <p class="rs nav-description">Your Project</p>
@@ -234,8 +241,10 @@
                 </form>
             </div>
         </div>
+        
         <div class="clear"></div>
     </div>
 </div>
-</body>
+
+</h:body>
 </html>

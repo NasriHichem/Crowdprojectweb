@@ -16,12 +16,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-	    name="type"
-	    
-	)
-@DiscriminatorValue("subscriber")
 public class Subscriber implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +31,11 @@ public class Subscriber implements Serializable {
 	@OneToMany(mappedBy="claming",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<Claim>claims;
 	private int  enable; 
+	@OneToMany(mappedBy="creator")
+	private List<Project>projects ;
+
+	@OneToMany(mappedBy="participant")
+	private List<Contribuation>contribuations ;
 	
 	
 	public Subscriber() {

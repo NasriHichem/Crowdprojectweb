@@ -82,6 +82,27 @@ public class ProjectsServices implements ProjectsServicesRemote,ProjectsServices
 		return (ArrayList<Project>)querygetprojectsbyname.getResultList();
 	}
 
+	@Override
+	public int getNumberprojectByCreator(int id) {
+		Query querygetcountofprojectsbycreator = em.createNamedQuery("getnumberprojectbycreator");
+		querygetcountofprojectsbycreator.setParameter("value",id);		 
+		int result=((Long)querygetcountofprojectsbycreator.getSingleResult()).intValue();
+		return result ;
+	}
+
+	@Override
+	public ArrayList<Project> findProjectsByCreator(int id) {
+		Query queryfindprojectsbycreator = em.createNamedQuery("findprojectsbycreator");
+		queryfindprojectsbycreator.setParameter("value",id);
+		return (ArrayList<Project>) queryfindprojectsbycreator.getResultList();
+	}
+
+	@Override
+	public void updateProject(Project p) {
+		em.persist(em.merge(p));
+		
+	}
+
 	
 
 }
