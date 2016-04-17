@@ -22,6 +22,8 @@ import javax.persistence.OneToMany;
 
 
 
+
+
 @Entity
 @NamedQueries({@NamedQuery(name = "findByCategory",
 query = "SELECT p FROM Project p ,Category c WHERE p.category.id =c.id and "
@@ -55,8 +57,8 @@ public class Project implements Serializable{
 	private String picture_project ;
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
-	@Column(length=16789987)
-	private byte[] picture ;
+	@Column(length=65535)
+	private byte[] picture=new byte[65535];
 	private String location ;
 	@Column(nullable=true)
 	private int  is_confirmed ;
@@ -66,9 +68,9 @@ public class Project implements Serializable{
 	private String date_publish ;
 	@ManyToOne
 	private Subscriber creator ;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private Category category ;
-	@OneToMany(mappedBy="project")
+	@OneToMany(mappedBy="project",fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)	
 	private List<Contribuation>contribuations;
 	@OneToMany(mappedBy="project")
 	private List<Virement>virements;
@@ -80,7 +82,8 @@ public class Project implements Serializable{
 
 	public Project(int id, String name, String title, String short_presentation, int duration,
 			float turget_funding, String picture_project, String location,int is_confirmed,
-		  String date_publish,  int is_validate,Subscriber creator,Category category) {
+		  String date_publish,  int is_validate,Subscriber creator,Category category,
+		 List<Contribuation>contribuations,byte[]picture ) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -95,6 +98,8 @@ public class Project implements Serializable{
 		this.date_publish=date_publish;
 		this.creator=creator ;
 		this.category=category ;
+		this.contribuations=contribuations;
+		this.picture=picture;
 	
 	}
 	public Project(String name, String title, String short_presentation, int duration,
@@ -229,6 +234,7 @@ public class Project implements Serializable{
 	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
+	
 
 	
 	

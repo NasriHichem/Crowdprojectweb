@@ -1,33 +1,41 @@
 package tn.esprit.smartdev.CrowdFunnding.presentation.mbeans;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.StateManager.SerializedView;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+
+import tn.esprit.smartdev.CrowdFunnding.Utils.Utils;
 import tn.esprit.smartdev.CrowdFunnding.persistence.Category;
 import tn.esprit.smartdev.CrowdFunnding.persistence.Contribuation;
 import tn.esprit.smartdev.CrowdFunnding.persistence.FundingContriubation;
 import tn.esprit.smartdev.CrowdFunnding.persistence.Project;
 import tn.esprit.smartdev.CrowdFunnding.persistence.Subscriber;
+import tn.esprit.smartdev.CrowdFunnding.presentation.converters.Sendmail;
 import tn.esprit.smartdev.CrowdFunnding.services.ContribuationServiceLocal;
 import tn.esprit.smartdev.CrowdFunnding.services.ProjectsServicesLocal;
 
@@ -38,20 +46,22 @@ public class ProjectBean {
 	ProjectsServicesLocal service ;
 	@EJB
 	ContribuationServiceLocal servicecon ;
-	private Project project =new Project() ;	
+	private Project project =new Project() ;
+	private List<Project>filteredProjects=new ArrayList<>();
+	private List<Project>projects=new ArrayList<>();
     private Project project_display=new Project(); 
-	private Category category =new Category();
+	private Category category=new Category();
     private  String picture_name;
     private List<String>villes =new ArrayList<>();
     private int number_contriburos ;
-    private UploadedFile file;
-    private File file_uploaded;
-    private String library ;
+    private UploadedFile file;   
     private String date_fin ;
     private String day_left ;
     private int numberofprojects;
-    private Project selectedproject=new Project();  
-   
+    private Project selectedproject=new Project(); 
+    private StreamedContent picture_project;
+    private List<StreamedContent>pictures=new ArrayList<>();
+    
     private void RemplirVilles()
     {
     	villes.add("Tunis");
@@ -79,33 +89,160 @@ public class ProjectBean {
     	villes.add("Mednine");
     	villes.add("Tataouine");
     }
-
+       
+    private void verifyProject()
+       {   	  
+    	   Date actuelle=new Date();
+           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+           String act = dateFormat.format(actuelle);
+           Calendar cal = Calendar.getInstance();
+         
+    	   for(Project p:projects)
+    	   {
+    		 float sum =0 ;
+    		 for(Contribuation c:p.getContribuations())
+    			  {
+    		  if(c instanceof FundingContriubation)
+    			  {
+    			  sum+=((FundingContriubation) c).getValue_fundings();
+    			  }
+    			  }
+    		     		  
+    	        try {
+					cal.setTime(dateFormat.parse(p.getDate_publish()));
+				} catch (ParseException e1) {
+					
+					e1.printStackTrace();
+				}
+    	        cal.add(Calendar.DAY_OF_MONTH, p.getDuration());    	       
+    			if((sum<p.getTurget_funding()&&act.equals(dateFormat.format(cal.getTime()))||
+    			 (sum==p.getTurget_funding())))
+    			{
+    				service.removeProject(p);
+    				/*Sendmail sm=new Sendmail(p.getCreator().getEmail(),
+    				"You project are faild");
+    				try {
+						sm.send();
+					} catch (AddressException e) {
+					} catch (MessagingException e) {
+					}*/
+    			}}}
+    				
     @PostConstruct
     public void init()
     {
+    	verifyProject();
     	RemplirVilles();
-    	project_display.setId(1);
-    	project_display.setName("Nasri societe");
-    	project_display.setTitle("Nasri piece auto");
-    	project_display.setShort_presentation("project important");
-    	project_display.setDate_publish("2016-04-12");
-    	project_display.setDuration(30);
-    	project_display.setTurget_funding(100000);
-    	Subscriber c=new Subscriber(1, "Hichem", "Nasri","hichem.esprit.tn", "root", "root", 1234567);
-    	project_display.setCreator(c);
-    	project_display.setCategory(new Category(1, "Art"));
-    	number_contriburos=servicecon.getNumberContribuation(project_display.getId());
-    	project_display.setContribuations(servicecon.getContribuation(project_display.getId()));
+    	projects=service.getListProjects();
+    	for(Project p:projects)
+    	{
+    		pictures.add(new DefaultStreamedContent(new ByteArrayInputStream(p.getPicture()),
+            null));
+    	}   	             
+    }
+   
+    public String dorenderDetail()
+    {
+    	number_contriburos=servicecon.getNumberContribuation(selectedproject.getId());
+    	selectedproject.setContribuations(servicecon.getContribuation(selectedproject.getId()));
     	Date actuelle = new Date();	
     	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String act = dateFormat.format(actuelle);       
-        int difference=	project_display.getDuration()
+        int difference=	selectedproject.getDuration()
         -(Integer.parseInt(act.split("-")[2])
-        -Integer.parseInt(project_display.getDate_publish().split("-")[2]));
+        -Integer.parseInt(selectedproject.getDate_publish().split("-")[2]));
         day_left=String.valueOf(difference);
-        numberofprojects=service.getNumberprojectByCreator(project_display.getCreator().getId());
+        numberofprojects=service.getNumberprojectByCreator(selectedproject.getCreator().getId());
+        picture_project=null ;
+        picture_project=new DefaultStreamedContent(new ByteArrayInputStream(selectedproject.getPicture()),
+        null);   
+        Calendar cal = Calendar.getInstance(); 
+    	try {
+			cal.setTime(dateFormat.parse(selectedproject.getDate_publish()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        cal.add(Calendar.DAY_OF_MONTH, selectedproject.getDuration());
+        date_fin = dateFormat.format(cal.getTime());
+       return  "/projects/project?faces-redirect=true" ;
     }
+    
+    public String dorenderaddProject()
+    {
+    	 return "/projects/propose_project?faces-redirect=true" ;
+    }
+    public String doaddProject()
+	{
+	Date actuelle = new Date();	
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String act = dateFormat.format(actuelle);
+        project.setCreator((Subscriber)Utils.getSession().getAttribute("username"));
+		project.setPicture( file.getContents());
+		project.setPicture_project(file.getFileName());		
+		project.setDate_publish(act);
+		project.setCategory(category);	// adhiya debug ??
+	    service.addProject(project);
+	   
+	    return "/projects/succes?faces-redirect=true" ;
+	}
+	public String dorenderupdateProject()
+	{
+	
+	  return "/projects/update_project?faces-redirect=true" ;
+	}
+	public String doupdateProject()
+	{
+	  service.updateProject(selectedproject);
+	  return "/projects/myprojects?faces-redirect=true" ;
+	}
+	public String doremoveProject()
+	{
+	  service.removeProject(selectedproject);
+	  return "/projects/myprojects?faces-redirect=true" ;
+	}
+	public String dorenderListprojects()
+	{
+		  return "/projects/listproject?faces-redirect=true" ;
+	}
+	public StreamedContent findImagebyId(int id)
+	{
+		int index =0;
+	   for(int i=0 ;i<projects.size();i++)
+	   {
+		   if(projects.get(i).getId()==id)
+		   {
+			  index=i ;
+			  break ;
+			  
+		   }
+	   }
+	   return pictures.get(index);
+	}
+	
 	 
+   public float sum_findings()
+	  {
+		  float sum =0 ;
+		  for(Contribuation c:selectedproject.getContribuations())
+		  {
+			  if(c instanceof FundingContriubation)
+			  {
+				  sum+=((FundingContriubation) c).getValue_fundings();
+			  }
+		  }
+	   return sum ;
+	  }
+
+   public float statistic_finding()
+	   {
+		   return( sum_findings()/selectedproject.getTurget_funding())*100;
+	   }
+   public ArrayList<Project>dofindProjectsBycreator()
+	 {	 
+	return service.findProjectsByCreator(((Subscriber)Utils.getSession().getAttribute("username")).getId());
+	 }
+    
 	public Project getProject()
 	{
 	return  project ;
@@ -160,24 +297,7 @@ public class ProjectBean {
 	public void setNumber_contriburos(int number_contriburos) {
 		this.number_contriburos = number_contriburos;
 	}
-	
-
-	public File getFile_uploaded() {
-		return file_uploaded;
-	}
-
-	public void  setFile_uploaded(File file_uploaded) {
-		this.file_uploaded = file_uploaded;
-	}
-
-	public String getLibrary() {
-		return library;
-	}
-
-	public void setLibrary(String library) {
-		this.library = library;
-	}
-	
+		
 	public String getDate_fin() {
 		return date_fin;
 	}
@@ -211,67 +331,51 @@ public class ProjectBean {
 		this.selectedproject = selectedproject;
 	}
 
-	public String doaddProject()
-	{
-	Date actuelle = new Date();	
-	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    String act = dateFormat.format(actuelle);
-       
-		//project.setPicture( file.getContents());
-		project.setPicture_project(file.getFileName());
+	
+	
+
+	public StreamedContent getPicture_project() {
+		return picture_project;
+	}
+
+	public void setPicture_project(StreamedContent picture_project) {
+		this.picture_project = picture_project;
+	}
+
+	public List<Project> getFilteredProjects() {
+		return filteredProjects;
+	}
+
+	public void setFilteredProjects(List<Project> filteredProjects) {
+		this.filteredProjects = filteredProjects;
+	}
+
+	public void onRowSelect(SelectEvent event){
+		FacesMessage msg = new FacesMessage("project selected", ((Project) event.getObject()).getName());
+		FacesContext.getCurrentInstance().addMessage("allo", msg);
 		
-		project.setDate_publish(act);
-		//project.setCategory(category);	
-	    service.addProject(project);
-	    return null ;
-	   // return "/projects/succes?faces-redirect=true" ;
 	}
-	public String dorenderupdateProject()
-	{
-	
-	  return "/projects/update_project?faces-redirect=true" ;
+    
+	public void onRowUnselect(UnselectEvent event){
+		FacesMessage msg = new FacesMessage("project unselected", ((Project) event.getObject()).getName());
+		FacesContext.getCurrentInstance().addMessage("allo", msg);
 	}
-	public String doupdateProject()
-	{
-	  service.updateProject(selectedproject);
-	  return "/projects/myprojects?faces-redirect=true" ;
-	}
-	public String doremoveProject()
-	{
-	  service.removeProject(selectedproject);
-	  return "/projects/myprojects?faces-redirect=true" ;
-	}
-	
-	
-	 public void upload() {
-	        if(file != null) {
-	            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-	            FacesContext.getCurrentInstance().addMessage(null, message);
-	        }
-	    }
-	 
-	  public float sum_findings()
-	  {
-		  float sum =0 ;
-		  for(Contribuation c:project_display.getContribuations())
-		  {
-			  if(c instanceof FundingContriubation)
-			  {
-				  sum+=((FundingContriubation) c).getValue_fundings();
-			  }
-		  }
-  	   return sum ;
-	  }
 
-	   public float statistic_finding()
-	   {
-		   return( sum_findings()/project_display.getTurget_funding())*100;
-	   }
-	   public ArrayList<Project>dofindProjectsBycreator()
-	   {
-		   return service.findProjectsByCreator(1);
-	   }
+	public List<StreamedContent> getPictures() {
+		return pictures;
+	}
 
+	public void setPictures(List<StreamedContent> pictures) {
+		this.pictures = pictures;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
 	
 	
 

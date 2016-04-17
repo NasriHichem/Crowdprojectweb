@@ -26,15 +26,26 @@ public class GestionMessages implements GestionMessageRemote,GestionMessageLocal
 			em.persist(M);
 		
 	}
+	@Override
+	public void SendMessageBySubscriber(Message M) {	
+		
+		em.persist(em.merge(M));
+		
+	}
 
 	@Override
 	public ArrayList<Message> FindAllMessageofModirator() {
 		ArrayList<Message>messages=new ArrayList<>();
 		messages=(ArrayList<Message>) em.createQuery("select m from Message m where administrator_id= 2")
-	.getResultList();
+	   .getResultList();
 		return messages;
 	}
-
+public ArrayList<Message> FindReceivedMessages(int id) {
+		
+		Query queryfindmessagesbyreceiver = em.createNamedQuery("findmessagesbyreceiver");
+		queryfindmessagesbyreceiver .setParameter("value",id);
+		return (ArrayList<Message>) queryfindmessagesbyreceiver.getResultList();
+	}
 		
 	
 

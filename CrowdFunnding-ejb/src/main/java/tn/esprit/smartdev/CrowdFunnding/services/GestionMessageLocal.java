@@ -16,5 +16,7 @@ public interface GestionMessageLocal {
 	public ArrayList<Message> FindAllMessageofAdmin();
 	public int  getNumberofmessagesbyadminbydate(String date1,String date2 );
 	public int  getNumberofmessagesbymodiratorbydate(String date1,String date2 );
+	public void SendMessageBySubscriber(Message M);
+	public ArrayList<Message> FindReceivedMessages(int id);
 
 }

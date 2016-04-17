@@ -34,6 +34,7 @@ public class ProjectsServices implements ProjectsServicesRemote,ProjectsServices
 
 	@Override
 	public void addProject(Project p) {
+		p=em.merge(p);
 		em.persist(p);
 		
 		
@@ -101,6 +102,11 @@ public class ProjectsServices implements ProjectsServicesRemote,ProjectsServices
 	public void updateProject(Project p) {
 		em.persist(em.merge(p));
 		
+	}
+
+	@Override
+	public Project findprojectById(int id) {
+		return em.find(Project.class, id);
 	}
 
 	

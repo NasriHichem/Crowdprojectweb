@@ -5,7 +5,8 @@
 	   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	   xmlns:jsf="http://xmlns.jcp.org/jsf"
 	   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	   xmlns:p="http://primefaces.org/ui">
+	   xmlns:p="http://primefaces.org/ui"
+	   xmlns:c="http://java.sun.com/jsp/jstl/core">
 	   
 
 
@@ -15,7 +16,7 @@
 
 </h:head>
 
-<h:body>
+<body>
 <div id="wrapper">
     <header id="header">
       <div class="wrap-top-menu">
@@ -23,16 +24,18 @@
                 <div class="grid_12">
                     <nav class="top-menu">
                         <ul id="main-menu" class="nav nav-horizontal clearfix">
-                            <li class="active"><a href="index.html">Home</a></li>
+                            <li class="active">
+                            <a href="index.html">Home</a></li>                          
                             <li class="sep"></li>
-                            <li>
-                            <h:form>
-                            <a>My profile<p:commandLink action="/Profile/myprofile"
-                             /></a>
-                            </h:form>
-                            </li>
-                            <li class="sep"></li>
-                            <li><a href="all-pages.html">Messages</a></li>
+                            
+                            <li class="active">  
+                             <h:form>
+                              <c:if test="#{username ne null}">                       
+                             <p:commandLink value="My profile" action="#{profileBean.dorenderMyProfle()}"
+                              style="color:white;">
+                             </p:commandLink>
+                             </c:if>
+                             </h:form></li>                                                                                          
                             <li class="sep"></li>
                             <li><a href="how-it-work.html">Claims</a></li>
                             <li class="sep"></li>
@@ -46,7 +49,7 @@
                         <div id="right-menu">
                             <ul class="alternate-menu">
                                 <li><a href="index.html">Home</a></li>
-                                <li><a href="all-pages.html">All Pages</a></li>
+                               
                                 <li><a href="how-it-work.html">Help</a></li>
                                 <li><a href="contact.html">Contact us</a></li>
                             </ul>
@@ -59,7 +62,16 @@
         </div><!-- end: .wrap-top-menu -->
         <div class="container_12 clearfix">
             <div class="grid_12 header-content">
-                <div id="sys_header_right" class="header-right">                   
+                <div id="sys_header_right" class="header-right">
+                    <div class="account-panel"><c:if test="#{username eq null}">
+                        <a href="#" class="btn btn-red sys_show_popup_login">Register</a>
+                        <a href="#" class="btn btn-black sys_show_popup_login">Login</a>
+                    </c:if>
+                    <c:if test="#{username ne null}">
+                    
+                    welcome #{username.firstname}
+                    </c:if>
+                    </div>
                     <div class="form-search">
                         <form action="#">
                             <label for="sys_txt_keyword">
@@ -76,17 +88,21 @@
                     </h1>
                     <div class="main-nav clearfix">
                         <div class="nav-item">
-                            <a href="#" class="nav-title">Discover</a>
+                         <h:form>
+                        <p:commandLink class="nav-title" value="Discover" action="#{projectBean.dorenderListprojects()}">                          
+                            </p:commandLink>
+                            </h:form>                         
                             <p class="rs nav-description">Great Projects</p>
                         </div>
                         <span class="sep"></span>
                         <div class="nav-item">
-                         <h:form>
-                           <p:commandLink action="/projects/propose_project" value="Start"
-                            class="nav-title" />
-                           </h:form>
+                        <h:form>
+                        <p:commandLink class="nav-title" value="Start" action="#{projectBean.dorenderaddProject()}">
+                          
+                            </p:commandLink>
+                            </h:form>
                             <p class="rs nav-description">Your Project</p>
-                        </div>                 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,55 +191,56 @@
         </div>
         <div class="grid_6 prefix_1">
             <div class="form login-form">
-                <form action="#">
+                <h:form action="#">
                     <h3 class="rs title-form">Register</h3>
                     <div class="box-white">
                         <h4 class="rs title-box">New to Kickstars?</h4>
                         <p class="rs">A Kickstars account is required to continue.</p>
                         <div class="form-action">
-                            <label for="txt_name">
-                                <input id="txt_name" class="txt fill-width" type="text" placeholder="Enter full name"/>
+                            <label for="txt_first_name">
+                               <h:inputText id="txt_first_name" class="txt fill-width" type="text" pt:placeholder="Enter your firstname" value="#{authnetificationBean.firstname}" />
+                            </label>
+                            <label for="txt_last_name">
+                                <h:inputText id="txt_last_name" class="txt fill-width" type="text" pt:placeholder="Enter your lastname" value="#{authnetificationBean.lastname}" />
                             </label>
                             <div class="wrap-2col clearfix">
                                 <div class="col">
                                     <label for="txt_email">
-                                        <input id="txt_email" class="txt fill-width" type="email" placeholder="Enter your e-mail address"/>
+                                        <h:inputText id="txt_email" class="txt fill-width" type="email" pt:placeholder="Enter your email-adresse" value="#{authnetificationBean.email}" />
+                               
                                     </label>
-                                    <label for="txt_re_email">
-                                        <input id="txt_re_email" class="txt fill-width" type="email" placeholder="Re-enter your e-mail adress"/>
-                                    </label>
+                                    
                                 </div>
                                 <div class="col">
                                     <label for="txt_password">
-                                        <input id="txt_password" class="txt fill-width" type="password" placeholder="Enter password"/>
+                                        <h:inputSecret id="txt_password" class="txt fill-width" type="password" pt:placeholder="Enter your password" value="#{authnetificationBean.password}" />
                                     </label>
-                                    <label for="txt_re_password">
-                                        <input id="txt_re_password" class="txt fill-width" type="password" placeholder="Re-enter password"/>
-                                    </label>
+                                    
                                 </div>
                             </div>
                             <p class="rs pb10">By signing up, you agree to our <a href="#" class="fc-orange">terms of use</a> and <a href="#" class="fc-orange">privacy policy</a>.</p>
                             <p class="rs ta-c">
-                                <button class="btn btn-red btn-submit" type="submit">Register</button>
+                                 <h:commandButton class="btn btn-red btn-submit"  action="#{authnetificationBean.doInscription()}" value="Register" />
                             </p>
                         </div>
                     </div>
-                </form>
+                </h:form>
             </div>
         </div>
         <div class="grid_4">
             <div class="form login-form">
-                <form action="#">
+                <h:form action=" ">
                     <h3 class="rs title-form">Login</h3>
-                    <div class="box-white">
+                    
+			 <div class="box-white">
                         <h4 class="rs title-box">Already Have an Account?</h4>
                         <p class="rs">Please log in to continue.</p>
                         <div class="form-action">
                             <label for="txt_email_login">
-                                <input id="txt_email_login" class="txt fill-width" type="email" placeholder="Enter your e-mail address"/>
+                                <h:inputText id="txt_email_login" class="txt fill-width" type="email" pt:placeholder="Enter your e-mail address" value="#{authnetificationBean.email}" />
                             </label>
                             <label for="txt_password_login">
-                                <input id="txt_password_login" class="txt fill-width" type="password" placeholder="Enter password"/>
+                                 <h:inputSecret id="txt_password_login" class="txt fill-width" type="password" pt:placeholder="Enter password" value="#{authnetificationBean.password}" />
                             </label>
 
                             <label for="chk_remember" class="rs pb20 clearfix">
@@ -231,20 +248,19 @@
                                 <span class="lbl-remember">Remember me</span>
                             </label>
                             <p class="rs ta-c pb10">
-                                <button class="btn btn-red btn-submit" type="submit">Login</button>
+                                 <h:commandButton class="btn btn-red btn-submit"  action="#{authnetificationBean.Login()}" value="LOGIN"  />
                             </p>
                             <p class="rs ta-c">
                                 <a href="#" class="fc-orange">I forgot my password</a>
                             </p>
                         </div>
                     </div>
-                </form>
+		
+                </h:form>
             </div>
         </div>
-        
-        <div class="clear"></div>
+       
     </div>
 </div>
-
-</h:body>
+</body>
 </html>

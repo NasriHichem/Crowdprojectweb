@@ -19,7 +19,8 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "getcountclaimsconfirmed",
 query = "SELECT count(c) FROM Claim c  WHERE c.state_claim =:value "),
 @NamedQuery(name = "findclaimsconfirmed",
-	query = "SELECT  c FROM Claim c  WHERE c.state_claim =:value ")	
+	query = "SELECT  c FROM Claim c  WHERE c.state_claim =:value "),
+
 })
 public class Claim implements Serializable{
 	/**

@@ -2,7 +2,6 @@ package tn.esprit.smartdev.CrowdFunnding.services;
 
 import javax.ejb.Local;
 
-
 import tn.esprit.smartdev.CrowdFunnding.persistence.Subscriber;
 
 @Local

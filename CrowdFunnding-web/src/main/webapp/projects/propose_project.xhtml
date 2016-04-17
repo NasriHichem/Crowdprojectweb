@@ -29,7 +29,8 @@
 									<div class="left-input">
 										<label for="txt_name_contact"> Choose picture of
 											project
-										 <p:fileUpload value="#{projectBean.file}" mode="simple" skinSimple="true"/>
+										 <p:fileUpload value="#{projectBean.file}"
+										 allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  mode="simple"/>
 										</label> <label for="txt_name_contact"> Title of project
 										<p:inputText id="title" value="#{projectBean.project.title}"
 												class="txt fill-width txt-name"	>
@@ -47,15 +48,17 @@
 												class="txt fill-width txt-name" >
 												<f:validator validatorId="crowdproject.notempty" />
 											</p:inputText> <h:message for="name" style="color:red" />
-										</label> 
+										</label>
+										
+										 
 										<label for="txt_name_contact"> Category 
-										<h:selectOneMenu value="#{projectBean.project.category}"
-											converter="categConverter"  var="t"	
+										<h:selectOneMenu value="#{projectBean.category}"
+											converter="categConverter"    style="width:160px"
 												>
-												<f:selectItems value="#{categoryBean.dogetCategories()}" var="cat"
-													itemValue="#{cat}" itemLabel="#{cat.name_category}" />
+												<f:selectItems value="#{categoryBean.dogetCategories()}" var="cat" itemValue="#{cat}"/>
 											</h:selectOneMenu>
 										</label>
+										
 										 <label for="txt_name_contact"> Duration
 										 <p:inputText  
 												id="duration" value="#{projectBean.project.duration}"

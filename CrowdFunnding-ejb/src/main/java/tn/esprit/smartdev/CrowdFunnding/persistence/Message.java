@@ -17,7 +17,9 @@ import javax.persistence.OneToMany;
 			+ " and m.administrator.id=1"),
 	@NamedQuery(name = "getcountofmessagesbymodiratorbydate",
 	query = "SELECT count(m) FROM Message m WHERE m.date_send BETWEEN :date1 AND :date2"
-			+ " and m.administrator.id=2")
+			+ " and m.administrator.id=2"),
+	@NamedQuery(name = "findmessagesbyreceiver",
+	query = "select m from Message m where m.reciever.id=:value")
 	
   })
 public class Message implements Serializable{		

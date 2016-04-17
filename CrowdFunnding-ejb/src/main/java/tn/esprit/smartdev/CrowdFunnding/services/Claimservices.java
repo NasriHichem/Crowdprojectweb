@@ -56,6 +56,11 @@ public class Claimservices implements ClaimservicesRemote,ClaimservicesLocal  {
 			querygetclaimbymonth.setParameter("date2", date2);
 			return (Long) querygetclaimbymonth.getSingleResult();
 		}
+
+		@Override
+		public void  addClaim(Claim claim) throws Exception {
+		   em.persist(claim);	
+		}
 	
 
 

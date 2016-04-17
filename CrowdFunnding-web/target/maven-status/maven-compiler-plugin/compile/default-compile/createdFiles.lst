@@ -1,7 +1,14 @@
 tn\esprit\smartdev\CrowdFunnding\presentation\validators\NotEmtyValidator.class
-tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\CategoryBean.class
 tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ProjectBean.class
-tn\esprit\smartdev\CrowdFunnding\presentation\converters\HealperBean.class
-tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ContribuationBean.class
+tn\esprit\smartdev\CrowdFunnding\Utils\Utils.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\MessageBean.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ProfileBean.class
 tn\esprit\smartdev\CrowdFunnding\presentation\converters\CategoryConverter.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\AuthnetificationBean.class
 tn\esprit\smartdev\CrowdFunnding\presentation\validators\NumberValidator.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\CategoryBean.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ClaimsBean.class
+tn\esprit\smartdev\CrowdFunnding\presentation\converters\HealperBean.class
+tn\esprit\smartdev\CrowdFunnding\presentation\converters\Sendmail$1.class
+tn\esprit\smartdev\CrowdFunnding\presentation\converters\Sendmail.class
+tn\esprit\smartdev\CrowdFunnding\presentation\mbeans\ContribuationBean.class
