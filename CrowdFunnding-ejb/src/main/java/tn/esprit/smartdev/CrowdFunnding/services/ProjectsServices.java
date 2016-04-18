@@ -109,6 +109,12 @@ public class ProjectsServices implements ProjectsServicesRemote,ProjectsServices
 		return em.find(Project.class, id);
 	}
 
+	@Override
+	public ArrayList<Project> getConfirmedProjects() {
+		Query querygetprojectsbyname= em.createNamedQuery("getconfirmedprojects");	
+		return (ArrayList<Project>)querygetprojectsbyname.getResultList();
+	}
+
 	
 
 }

@@ -11,4 +11,5 @@ public interface CategoryservicesLocal {
 
 	public ArrayList<Category>getList();
 	public Category findCategoryByName(String name);
+	public Category findCategoryById(int id);
 }

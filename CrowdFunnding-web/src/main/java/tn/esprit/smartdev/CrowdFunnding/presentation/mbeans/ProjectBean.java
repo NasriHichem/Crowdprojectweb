@@ -36,21 +36,24 @@ import tn.esprit.smartdev.CrowdFunnding.persistence.FundingContriubation;
 import tn.esprit.smartdev.CrowdFunnding.persistence.Project;
 import tn.esprit.smartdev.CrowdFunnding.persistence.Subscriber;
 import tn.esprit.smartdev.CrowdFunnding.presentation.converters.Sendmail;
+import tn.esprit.smartdev.CrowdFunnding.services.CategoryservicesLocal;
 import tn.esprit.smartdev.CrowdFunnding.services.ContribuationServiceLocal;
 import tn.esprit.smartdev.CrowdFunnding.services.ProjectsServicesLocal;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 public class ProjectBean {
 	@EJB
 	ProjectsServicesLocal service ;
 	@EJB
 	ContribuationServiceLocal servicecon ;
+	@EJB
+	CategoryservicesLocal servicecat ;
 	private Project project =new Project() ;
 	private List<Project>filteredProjects=new ArrayList<>();
 	private List<Project>projects=new ArrayList<>();
     private Project project_display=new Project(); 
-	private Category category=new Category();
+	private int  category;
     private  String picture_name;
     private List<String>villes =new ArrayList<>();
     private int number_contriburos ;
@@ -115,30 +118,30 @@ public class ProjectBean {
 					e1.printStackTrace();
 				}
     	        cal.add(Calendar.DAY_OF_MONTH, p.getDuration());    	       
-    			if((sum<p.getTurget_funding()&&act.equals(dateFormat.format(cal.getTime()))||
-    			 (sum==p.getTurget_funding())))
+    			if((act.equals(dateFormat.format(cal.getTime()))))
     			{
     				service.removeProject(p);
-    				/*Sendmail sm=new Sendmail(p.getCreator().getEmail(),
+    				Sendmail sm=new Sendmail(p.getCreator().getEmail(),
     				"You project are faild");
     				try {
 						sm.send();
 					} catch (AddressException e) {
 					} catch (MessagingException e) {
-					}*/
+					}
     			}}}
     				
     @PostConstruct
     public void init()
     {
-    	verifyProject();
+    	
     	RemplirVilles();
-    	projects=service.getListProjects();
+    	projects=service.getConfirmedProjects();
     	for(Project p:projects)
     	{
     		pictures.add(new DefaultStreamedContent(new ByteArrayInputStream(p.getPicture()),
-            null));
-    	}   	             
+            "image/jpg"));
+    	}  
+    	verifyProject();
     }
    
     public String dorenderDetail()
@@ -152,10 +155,9 @@ public class ProjectBean {
         -(Integer.parseInt(act.split("-")[2])
         -Integer.parseInt(selectedproject.getDate_publish().split("-")[2]));
         day_left=String.valueOf(difference);
-        numberofprojects=service.getNumberprojectByCreator(selectedproject.getCreator().getId());
-        picture_project=null ;
-        picture_project=new DefaultStreamedContent(new ByteArrayInputStream(selectedproject.getPicture()),
-        null);   
+        numberofprojects=service.getNumberprojectByCreator(selectedproject.getCreator().getId());        
+    //    picture_project=new DefaultStreamedContent(new ByteArrayInputStream(selectedproject.getPicture()),
+     //   "image/jpg");   
         Calendar cal = Calendar.getInstance(); 
     	try {
 			cal.setTime(dateFormat.parse(selectedproject.getDate_publish()));
@@ -180,8 +182,8 @@ public class ProjectBean {
         project.setCreator((Subscriber)Utils.getSession().getAttribute("username"));
 		project.setPicture( file.getContents());
 		project.setPicture_project(file.getFileName());		
-		project.setDate_publish(act);
-		project.setCategory(category);	// adhiya debug ??
+		project.setDate_publish(act);	
+		project.setCategory(servicecat.findCategoryById(category));
 	    service.addProject(project);
 	   
 	    return "/projects/succes?faces-redirect=true" ;
@@ -206,17 +208,12 @@ public class ProjectBean {
 		  return "/projects/listproject?faces-redirect=true" ;
 	}
 	public StreamedContent findImagebyId(int id)
-	{
-		int index =0;
-	   for(int i=0 ;i<projects.size();i++)
-	   {
-		   if(projects.get(i).getId()==id)
-		   {
-			  index=i ;
-			  break ;
-			  
-		   }
+	{  
+	  int index =-1 ;
+	   do{
+		   index ++;
 	   }
+	   while(id==projects.get(index).getId());
 	   return pictures.get(index);
 	}
 	
@@ -270,11 +267,11 @@ public class ProjectBean {
 		this.picture_name = picture_name;
 	}
 
-	public Category getCategory() {
+	public int  getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
 	public List<String> getVilles() {

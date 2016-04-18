@@ -59,7 +59,15 @@ public class Claimservices implements ClaimservicesRemote,ClaimservicesLocal  {
 
 		@Override
 		public void  addClaim(Claim claim) throws Exception {
-		   em.persist(claim);	
+		    em.merge(claim);
+			em.persist(claim);	
+		}
+
+		@Override
+		public ArrayList<Claim> findbyclaimer(int id) {
+			Query querybyclaimer=em.createNamedQuery("findbyclaimer");
+			 querybyclaimer.setParameter("value", id);
+			 return (ArrayList<Claim>) querybyclaimer.getResultList();
 		}
 	
 

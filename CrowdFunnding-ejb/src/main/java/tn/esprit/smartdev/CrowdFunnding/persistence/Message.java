@@ -29,6 +29,8 @@ public class Message implements Serializable{
 	@ManyToOne
 	private Subscriber reciever ;
 	@ManyToOne
+	private Subscriber sender ;
+	@ManyToOne
 	private Adminstrator administrator ;
 	private String object_message ;
 	private String text_message ;
@@ -100,6 +102,12 @@ public class Message implements Serializable{
 	public void setName_sender(String name_sender) {
 			this.name_sender = name_sender;
 		}
+	public Subscriber getSender() {
+		return sender;
+	}
+	public void setSender(Subscriber sender) {
+		this.sender = sender;
+	}
 		
 		
 }

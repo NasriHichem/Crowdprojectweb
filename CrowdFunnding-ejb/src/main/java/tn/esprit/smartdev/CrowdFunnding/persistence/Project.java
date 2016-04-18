@@ -41,7 +41,10 @@ query = "SELECT p FROM Project p ,Category c WHERE p.category.id =c.id and "
    query = "SELECT count(p) FROM Project p WHERE p.creator.id=:value"),
    
    @NamedQuery(name = "findprojectsbycreator",
-   query = "SELECT p FROM Project p WHERE p.creator.id=:value")
+   query = "SELECT p FROM Project p WHERE p.creator.id=:value"),
+   
+   @NamedQuery(name = "getconfirmedprojects",
+   query = "SELECT p FROM Project p WHERE p.is_confirmed=1")
 })
 public class Project implements Serializable{
 	

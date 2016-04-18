@@ -20,6 +20,8 @@ import javax.persistence.NamedQuery;
 query = "SELECT count(c) FROM Claim c  WHERE c.state_claim =:value "),
 @NamedQuery(name = "findclaimsconfirmed",
 	query = "SELECT  c FROM Claim c  WHERE c.state_claim =:value "),
+@NamedQuery(name = "findbyclaimer",
+query = "SELECT  c FROM Claim c  WHERE c.claimer.id =:value "),
 
 })
 public class Claim implements Serializable{
@@ -27,13 +29,15 @@ public class Claim implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final FetchType eager = null;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id ;
 	
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToOne
 	private Subscriber claming ;
+	@ManyToOne
+	private Subscriber claimer ;
 	private String object ;
 	private String cause ;
 	private int state_claim ;
@@ -45,9 +49,10 @@ public class Claim implements Serializable{
 	}
 
 	
-	public Claim(Subscriber claming, String object, String cause, int state_claim, String date_publich) {
+	public Claim(Subscriber claming,Subscriber claimer, String object, String cause, int state_claim, String date_publich) {
 		super();
 		this.claming = claming;
+		this.claimer = claimer;
 		this.object = object;
 		this.cause = cause;
 		this.state_claim = state_claim;
@@ -110,6 +115,16 @@ public class Claim implements Serializable{
 	}
 	public void setDate_publich(String date_publich) {
 		this.date_publish = date_publich;
+	}
+
+
+	public Subscriber getClaimer() {
+		return claimer;
+	}
+
+
+	public void setClaimer(Subscriber claimer) {
+		this.claimer = claimer;
 	}
 
 

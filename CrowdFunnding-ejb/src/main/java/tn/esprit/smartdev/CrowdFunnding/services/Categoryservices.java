@@ -45,6 +45,11 @@ public class Categoryservices implements CategoryservicesRemote, Categoryservice
 		return found;
 	}
 
+	@Override
+	public Category findCategoryById(int id) {
+	 return em.find(Category.class, id);
+	}
+
    
 
     

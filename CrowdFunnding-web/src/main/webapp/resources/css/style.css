@@ -2291,3 +2291,34 @@ a.fc-gray-dark,.fc-gray-dark{color: #999}
     float: left;
     line-height: 1em;
 }
+.login-user-name{
+	position :absolute ;
+	right: 50 px;
+}
+.profile{
+  
+  position :absolute;
+  right:200px;
+  border-radius:50%;
+  width:10px;
+  height:10px;
+  border:2px solid #000; 
+  
+}
+.button
+{
+	position :absolute ;
+	left :510px;
+	width:20%;
+	height:40px;
+    background-color:#2980B9;	
+	background-repeat: no-repeat; 
+    color:#fff;
+    border:2px solid #2980B9;
+	font-family :Trebuchet MS;
+    padding-left: 27px; 
+    font-size:14px;	
+	text-align:center;
+    cursor:pointer;
+	
+}

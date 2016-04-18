@@ -16,6 +16,7 @@ public interface ClaimservicesLocal {
 	public ArrayList<Claim> getListclaimnonconfirm();
 	public void update(Claim c);
 	public ArrayList<Claim> getclaimByclaiming(String txtclaiming);
+	public ArrayList<Claim>findbyclaimer(int id);
 	public Long getclaimbymonth(String date1, String date2);
 	
 	/*List<Claim> findAllClaims();

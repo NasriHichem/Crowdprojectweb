@@ -30,6 +30,8 @@ public class Subscriber implements Serializable {
 	private List<Message>messages ;
 	@OneToMany(mappedBy="claming",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<Claim>claims;
+	@OneToMany(mappedBy="claimer",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	private List<Claim>myclaims;
 	private int  enable; 
 	@OneToMany(mappedBy="creator")
 	private List<Project>projects ;
@@ -117,6 +119,12 @@ public class Subscriber implements Serializable {
 	}
 	public void setEnable(int enable) {
 		this.enable = enable;
+	}
+	public List<Claim> getMyclaims() {
+		return myclaims;
+	}
+	public void setMyclaims(List<Claim> myclaims) {
+		this.myclaims = myclaims;
 	}
 	
 	
